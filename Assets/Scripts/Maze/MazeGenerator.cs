@@ -22,6 +22,14 @@ public class MazeGenerator : MonoBehaviour
     private MazeCell[,] maze;
     private Stack<MazeCell> cellStack;              // DFS를 위한 스택
 
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -180,11 +188,11 @@ public class MazeGenerator : MonoBehaviour
             current.SetColor(currentColor);             // + (현재 칸 강조)
             yield return new WaitForSeconds(visualizationSpeed); // +
             
-            List<MazeCell> unvistiedNeighbors = GetUnvisitedNeighbors(current); // 방문하지 않은 이웃
+            List<MazeCell> unvisitedNeighbors = GetUnvisitedNeighbors(current); // 방문하지 않은 이웃
 
-            if (unvistiedNeighbors.Count > 0)
+            if (unvisitedNeighbors.Count > 0)
             {
-                MazeCell next = unvistiedNeighbors[Random.Range(0, unvistiedNeighbors.Count)];  // 랜덤하게 이웃 선택
+                MazeCell next = unvisitedNeighbors[Random.Range(0, unvisitedNeighbors.Count)];  // 랜덤하게 이웃 선택
                 RemoveWallBetween(current, next);           // 벽 제거
 
                 current.SetColor(visitedColor);             // + (현재 칸 방문 완료 색으로)
